@@ -97,6 +97,28 @@ async function run() {
             const result = await orderCollection.deleteOne(query);
             res.send(result);
         })
+        //for update review
+        app.get('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await orderCollection.findOne(query);
+            res.send(result);
+        })
+
+        app.patch('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateReview = req.body.message
+            const query = { _id: ObjectId(id) }
+            const updatedDoc = {
+                $set: {
+                    message: updateReview
+                }
+            }
+            const result = await orderCollection.updateOne(query, updatedDoc);
+            console.log(result)
+            res.send(result);
+        })
+
 
 
     }
